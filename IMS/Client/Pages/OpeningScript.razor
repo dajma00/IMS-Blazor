@@ -1,0 +1,82 @@
+﻿@page "/openingscript"
+@using System.Threading.Tasks;
+@using IMS.Shared.Models;
+@inject HttpClient httpclient;
+@inject IMS.Shared.QuoteState quoteState; 
+@using System.Collections.Generic;
+
+ 
+
+
+<h3>Opening Script</h3>
+@if (titles != null)
+{
+    
+<EditForm Model="@titles" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <p>
+        Dear
+        <InputSelect  @bind-Value="currentTitle">
+            @foreach (var item in titles)
+            {
+                <option value="@item.Id">@item.Title</option>
+
+            }
+        </InputSelect>
+    </p>
+    <button type="submit">Submit</button>
+
+</EditForm>
+    
+   
+}
+
+
+@code {
+    public TitlesTable[] titles;
+    public IEnumerable<String> iTitles;
+    string iTitles1, iTitles2, currentTitle;
+    public Quote quote;
+    public int titleid;
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        //get data from titles table
+        titles = await httpclient.GetFromJsonAsync<TitlesTable[]>("api/IMS");
+        quote = await httpclient.GetFromJsonAsync<Quote>("api/IMS/quote");
+        iTitles = from items2 in titles select items2.Title;
+        iTitles1 = titles[0].Title;
+        iTitles2 = titles[1].Title;
+
+        //currentTitle = (from items in titles
+        //                where quote.TitleCode == items.Id
+        //                select items.Title).FirstOrDefault();
+
+        currentTitle = quote.TitleCode.ToString();
+        quoteState.QuoteId = 1; //quote state is a dependency injected variable. Set it to the selected quote when user selects quote from the menu.
+
+
+
+
+
+    }
+    protected async Task HandleValidSubmit(EditContext editContext)
+    {
+
+        var x = currentTitle;
+        quote.TitleCode = int.Parse(x);
+        var result = await httpclient.PostAsJsonAsync("api/IMS/PostSaveChanges", quote);
+
+
+        Console.WriteLine("OnValidSubmit");
+    }
+    //public void onchange(ChangeEventArgs e)
+    //{
+    //    quote.TitleCode = int.Parse(e.Value.ToString());
+
+
+    //}
+}

@@ -1,0 +1,10 @@
+1. Create a Blazor app from VS. Choose .Net Core option, it will create 3 projects int the
+solution.
+2. Follow this article to add the database support using efcore:https://www.codewithmukesh.com/blog/blazor-crud-with-entity-framework-core/
+3. Create DataAccess folder in IMS.Server project
+4. Create DataContext class in IMS.Server.DataAccess folder.
+5. Install Microsoft.EntityframworkCore (turn off prerelease) and Microsoft.EntityFrameworkCore.Design
+6. Install Polemy.EntityFrameworkCore.MySql package to access MySql
+7. Make changes to startup.cs to link to the remote database as per this article: https://www.codewithmukesh.com/blog/blazor-crud-with-entity-framework-core/
+8. Add a new Contoller in the Controllers folder (api controller)
+9. <InputSelect> requires @bind-Value
