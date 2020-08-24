@@ -49,6 +49,13 @@ namespace IMS.Server.Controllers
                 quote = new Quote();
             return Ok(quote);
         }
+
+        [HttpGet("Quotes")]
+        public async Task<IActionResult> GetQuotes()
+        {
+            var quotes = await _dataContext.tblQuotes.ToListAsync();
+            return Ok(quotes);
+        }
         
         [HttpPost("PostSaveChanges")]
         public async Task<IActionResult> PostSaveChanges(Quote quote)

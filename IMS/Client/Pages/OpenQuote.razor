@@ -1,0 +1,45 @@
+﻿@page "/openquote"
+@using IMS.Shared.Models
+@inject HttpClient Http
+@inject IMS.Shared.QuoteState QuoteState
+
+<h1>Quote List</h1>
+
+
+
+@if (quotes == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Quote ID</th>
+                <th>Title Code</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var quote in quotes)
+            {
+                <tr>
+                    <td>@quote.ID</td>
+                    <td>@quote.TitleCode</td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Quote[] quotes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        quotes = await Http.GetFromJsonAsync<Quote[]>("Quotes");
+    }
+
+}
