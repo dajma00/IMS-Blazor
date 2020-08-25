@@ -1,42 +1,43 @@
 ﻿@page "/openingscript"
-@page "/openingscript/{quoteid:int}" 
+@page "/openingscript/{quoteid:int}"
 @using System.Threading.Tasks;
 @using IMS.Shared.Models;
 @inject HttpClient httpclient;
-@inject IMS.Shared.QuoteState quoteState; 
+@inject IMS.Shared.QuoteState quoteState;
 @using System.Collections.Generic;
 @inject NavigationManager nm;
+@inject IModalDialogService ModalDialog
 
- 
 
 
 <h3>Opening Script for Quote id:@quoteState.QuoteId</h3>
 @if (titles != null)
 {
-    
-<EditForm Model="quote" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator />
+
+    <EditForm Model="quote" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
 
 
-    <p>
-        Dear
-        <InputSelect @bind-Value="currentTitle">
-            @foreach (var item in titles)
-                {
-                <option value="@item.Id">@item.Title</option>
+        <p>
+            Dear
+            <InputSelect @bind-Value="currentTitle">
+                @foreach (var item in titles)
+                    {
+                    <option value="@item.Id">@item.Title</option>
 
-                }
-        </InputSelect>
-    </p>
-    <label>Client Name</label>
-    <InputText id="name" @bind-Value="quote.ClientName"></InputText>
-    <ValidationMessage For="@(() => quote.ClientName)" />
-    <button type="submit">Submit</button>
+                    }
+            </InputSelect>
+        </p>
+        <label>Client Name</label>
+        <InputText id="name" @bind-Value="quote.ClientName"></InputText>
+        <ValidationMessage For="@(() => quote.ClientName)" />
+        <button type="submit">Submit</button>
 
-</EditForm>
+    </EditForm>
+    <button @onclick="SignUpBtn_Clicked" class="btn btn-primary">Sign Up Now</button>
 
-    
-   
+
+
 }
 
 
@@ -49,6 +50,12 @@
     [Parameter]
     public int QuoteID { get; set; }
 
+    async void SignUpBtn_Clicked()
+    {
+        ModalDialogResult result = await ModalDialog.ShowDialogAsync<Test>("Sign Up For your free account");
+        if (result.Success)
+            ;// CreateNewUser(result.ReturnParameters.Get<string>("FirstName"), result.ReturnParameters.Get<string>("LastName"))
+        }
 
     protected async override Task OnInitializedAsync()
     {
@@ -60,8 +67,8 @@
             quote = await httpclient.GetFromJsonAsync<Quote>("api/IMS/quote/" + quoteState.QuoteId.ToString());
             currentTitle = quote.TitleCode.ToString();
         }
-        else //no quote number means user has clicked on this component without selecting 
-        //a quote before. So send the user to select a quote first.
+        else //no quote number means user has clicked on this component without selecting
+             //a quote before. So send the user to select a quote first.
         {
             nm.NavigateTo("openquote");
         }

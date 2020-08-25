@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using IMS.Client.Shared;
 using IMS.Shared;
+using Blazor.ModalDialog;
 
 namespace IMS.Client
 {
@@ -21,6 +22,8 @@ namespace IMS.Client
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddScoped<QuoteState>();
+            //add service for LiquidTechnologies modal dialog box (installed nuget package)
+            builder.Services.AddModalDialog();
             
             await builder.Build().RunAsync();
         }

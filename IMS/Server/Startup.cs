@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices;
 using Microsoft.Extensions.Configuration.Json;
 
+
 namespace IMS.Server
 {
     public class Startup
@@ -35,6 +36,7 @@ namespace IMS.Server
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             connectionString = Configuration["ConnectionStrings:DefaultConnection"];
             services.AddDbContext<DataContext>(options => options.UseMySql(connectionString));
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
