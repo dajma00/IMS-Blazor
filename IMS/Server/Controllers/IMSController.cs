@@ -50,7 +50,7 @@ namespace IMS.Server.Controllers
             return Ok(quote);
         }
 
-        [HttpGet("Quotes")]
+        [HttpGet("quotes")]
         public async Task<IActionResult> GetQuotes()
         {
             var quotes = await _dataContext.tblQuotes.ToListAsync();
