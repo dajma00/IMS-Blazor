@@ -40,11 +40,15 @@ namespace IMS.Server.Controllers
             
         }
 
-
-        [HttpGet("quote")]
-        public async Task<IActionResult> GetQuote()
+        //given a quote id, return the quote
+        [HttpGet("quote/{quoteid}")]
+        public async Task<IActionResult> GetQuote(string quoteid)
         {
-            var quote = await _dataContext.tblQuotes.FirstOrDefaultAsync(); //TO DO: apply quote filter here 
+            int QuoteID = int.Parse(quoteid);
+            var quote = await _dataContext.tblQuotes //TO DO: apply quote filter here
+                                .Where(x => x.ID == QuoteID)
+                                .SingleOrDefaultAsync();
+                               
             if (quote == null)
                 quote = new Quote();
             return Ok(quote);

@@ -1,14 +1,16 @@
 ﻿@page "/openingscript"
+@page "/openingscript/{quoteid:int}" 
 @using System.Threading.Tasks;
 @using IMS.Shared.Models;
 @inject HttpClient httpclient;
 @inject IMS.Shared.QuoteState quoteState; 
 @using System.Collections.Generic;
+@inject NavigationManager nm;
 
  
 
 
-<h3>Opening Script</h3>
+<h3>Opening Script for Quote id:@quoteState.QuoteId</h3>
 @if (titles != null)
 {
     
@@ -41,23 +43,32 @@
     string iTitles1, iTitles2, currentTitle;
     public Quote quote;
     public int titleid;
+    [Parameter]
+    public int QuoteID { get; set; }
 
 
     protected async override Task OnInitializedAsync()
     {
         //get data from titles table
         titles = await httpclient.GetFromJsonAsync<TitlesTable[]>("api/IMS");
-        quote = await httpclient.GetFromJsonAsync<Quote>("api/IMS/quote");
-        iTitles = from items2 in titles select items2.Title;
-        iTitles1 = titles[0].Title;
-        iTitles2 = titles[1].Title;
+        //get the relevant quote data
+        if (quoteState.QuoteId != 0) //quote state 0 means, no selection of quote was made
+        {
+            quote = await httpclient.GetFromJsonAsync<Quote>("api/IMS/quote/" + quoteState.QuoteId.ToString());
+            currentTitle = quote.TitleCode.ToString();
+        }
+        else
+        {
+            nm.NavigateTo("openquote");
+        }
+
+        //iTitles = from items2 in titles select items2.Title;
 
         //currentTitle = (from items in titles
         //                where quote.TitleCode == items.Id
         //                select items.Title).FirstOrDefault();
 
-        currentTitle = quote.TitleCode.ToString();
-        quoteState.QuoteId = 1; //quote state is a dependency injected variable. Set it to the selected quote when user selects quote from the menu.
+
 
 
 

@@ -2,6 +2,7 @@
 @using IMS.Shared.Models
 @inject HttpClient Http
 @inject IMS.Shared.QuoteState QuoteState
+@inject NavigationManager nm
 
 <h1>Quote List</h1>
 
@@ -24,11 +25,12 @@ else
         <tbody>
             @foreach (var quote in quotes)
             {
-                <tr>
-                    <td>@quote.ID</td>
-                    <td>@quote.TitleCode</td>
-                    
-                </tr>
+            <tr>
+                <td>@quote.ID</td>
+                <td>@quote.TitleCode</td>
+                <td><button @onclick="@(()=>Openquote(quote))">Open</button></td>
+
+            </tr>
             }
         </tbody>
     </table>
@@ -40,6 +42,11 @@ else
     protected override async Task OnInitializedAsync()
     {
         quotes = await Http.GetFromJsonAsync<Quote[]>("/api/IMS/quotes");
+    }
+    public void Openquote(Quote quote)
+    {
+        QuoteState.QuoteId = quote.ID;
+        nm.NavigateTo("openingscript/"+quote.ID.ToString());
     }
 
 }
