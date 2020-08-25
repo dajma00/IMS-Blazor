@@ -69,6 +69,7 @@ namespace IMS.Server.Controllers
             {
                 //found quote, just update it with new data
                 q.TitleCode = quote.TitleCode;
+                q.ClientName = quote.ClientName;
                 _dataContext.tblQuotes.Update(q);
             }
             else

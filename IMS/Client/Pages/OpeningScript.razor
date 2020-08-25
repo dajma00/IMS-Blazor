@@ -14,20 +14,23 @@
 @if (titles != null)
 {
     
-<EditForm Model="@titles" OnValidSubmit="HandleValidSubmit">
+<EditForm Model="quote" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
-    <ValidationSummary />
+
 
     <p>
         Dear
-        <InputSelect  @bind-Value="currentTitle">
+        <InputSelect @bind-Value="currentTitle">
             @foreach (var item in titles)
-            {
+                {
                 <option value="@item.Id">@item.Title</option>
 
-            }
+                }
         </InputSelect>
     </p>
+    <label>Client Name</label>
+    <InputText id="name" @bind-Value="quote.ClientName"></InputText>
+    <ValidationMessage For="@(() => quote.ClientName)" />
     <button type="submit">Submit</button>
 
 </EditForm>
@@ -57,7 +60,8 @@
             quote = await httpclient.GetFromJsonAsync<Quote>("api/IMS/quote/" + quoteState.QuoteId.ToString());
             currentTitle = quote.TitleCode.ToString();
         }
-        else
+        else //no quote number means user has clicked on this component without selecting 
+        //a quote before. So send the user to select a quote first.
         {
             nm.NavigateTo("openquote");
         }
