@@ -51,12 +51,18 @@ app {
     text-overflow: ellipsis;
 }
 
+.blazor {
+    background: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .sidebar {
     /*
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
     */
-    background-color:lightgreen;
-    
+    display: flex;
+    background-color: rgb(240, 255, 240);
 }
 
     .sidebar .top-row {
@@ -75,7 +81,7 @@ app {
     }
 
     .sidebar .nav-item {
-        font-size: 0.9rem;
+        font-size: 1.2rem;
         padding-bottom: 0.5rem;
     }
 
@@ -88,22 +94,22 @@ app {
         }
 
         .sidebar .nav-item a {
-            color: #d7d7d7;
+            color: #000000;
             border-radius: 4px;
-            height: 3rem;
+            /*height: 3rem;*/
             display: flex;
-            align-items: center;
-            line-height: 3rem;
+            justify-content: left;
+            /*line-height: 3rem;*/
         }
 
             .sidebar .nav-item a.active {
-                background-color: rgba(255,255,255,0.25);
-                color: white;
+                /*background-color: rgba(255,255,255,0.25);*/
+                color: rgb(2, 38, 8);
             }
 
             .sidebar .nav-item a:hover {
-                background-color: rgba(255,255,255,0.1);
-                color: white;
+                /*background-color: rgba(255,255,255,0.1);*/
+                color: rgb(2,38,8); /*sasme as normal link*/
             }
 
 .content {
@@ -178,8 +184,11 @@ app {
     }
 
     .main > div {
+        padding-left: 0.2rem;
+        /*
         padding-left: 2rem !important;
         padding-right: 1.5rem !important;
+            */
     }
 
     .navbar-toggler {
