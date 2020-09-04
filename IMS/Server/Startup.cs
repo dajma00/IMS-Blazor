@@ -10,6 +10,9 @@ using IMS.Server.DataAccess.IMS.Server.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices;
 using Microsoft.Extensions.Configuration.Json;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
 
 
 namespace IMS.Server
@@ -36,7 +39,10 @@ namespace IMS.Server
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             connectionString = Configuration["ConnectionStrings:DefaultConnection"];
             services.AddDbContext<DataContext>(options => options.UseMySql(connectionString));
+
             
+            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +66,7 @@ namespace IMS.Server
 
             app.UseRouting();
 
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

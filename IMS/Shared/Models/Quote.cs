@@ -14,5 +14,10 @@ namespace IMS.Shared.Models
         [Required(ErrorMessage ="Client name is required.")]
         [StringLength(10, ErrorMessage = "Name is too long.")]
         public string ClientName { get; set; }
+        [DataType(DataType.PhoneNumber)]
+        public string MobilePhone { get; set; }
+        [DataType(DataType.EmailAddress)]
+        public string EmailAddress { get; set; }
+
     }
 }

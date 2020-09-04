@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using IMS.Client.Shared;
 using IMS.Shared;
 using Blazor.ModalDialog;
+using System.Globalization;
+using Microsoft.JSInterop;
 
 namespace IMS.Client
 {
@@ -22,10 +24,19 @@ namespace IMS.Client
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddScoped<QuoteState>();
+            builder.Services.AddLocalization();
             //add service for LiquidTechnologies modal dialog box (installed nuget package)
             builder.Services.AddModalDialog();
-            
-            await builder.Build().RunAsync();
+            var host = builder.Build();
+            var jsInterop = host.Services.GetRequiredService<IJSRuntime>();
+            var result = await jsInterop.InvokeAsync<string>("blazorCulture.get");
+            if (result != null)
+            {
+                var culture = new CultureInfo(result);
+                CultureInfo.DefaultThreadCurrentCulture = culture;
+                CultureInfo.DefaultThreadCurrentUICulture = culture;
+            }
+            await host.RunAsync();
         }
     }
 }

@@ -1,0 +1,54 @@
+﻿@using IMS.Shared.Models
+@inject HttpClient Http
+@inject IMS.Shared.QuoteState quoteState
+@inject HttpClient httpclient
+@inject NavigationManager nm
+
+<h3>Please enter other info for the client</h3>
+
+<EditForm Model="quote" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+
+
+
+    <label>Fill in details</label>
+    <InputText id="name" @bind-Value="quote.EmailAddress"></InputText>
+    <ValidationMessage For="@(() => quote.EmailAddress)" />
+    <InputText id="name" @bind-Value="quote.MobilePhone"></InputText>
+    <ValidationMessage For="@(() => quote.MobilePhone)" />
+    <button type="submit">Submit</button>
+
+</EditForm>
+@code {
+    public Quote quote;
+
+    protected async override Task OnInitializedAsync()
+    {
+        
+        //get the relevant quote data
+        if (quoteState.QuoteId != 0) //quote state 0 means, no selection of quote was made
+        {
+            quote = await httpclient.GetFromJsonAsync<Quote>("api/IMS/quote/" + quoteState.QuoteId.ToString());
+            
+        }
+        else //no quote number means user has clicked on this component without selecting
+             //a quote before. So send the user to select a quote first.
+        {
+            nm.NavigateTo("openquote");
+        }
+
+     
+    }
+
+    protected async Task HandleValidSubmit(EditContext editContext)
+    {
+
+
+
+        var result = await httpclient.PostAsJsonAsync("api/IMS/PostSaveChanges", quote);
+
+
+        Console.WriteLine("OnValidSubmit");
+    }
+
+}

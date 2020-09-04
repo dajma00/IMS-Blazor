@@ -6,7 +6,9 @@
 @inject IMS.Shared.QuoteState quoteState;
 @using System.Collections.Generic;
 @inject NavigationManager nm;
-@inject IModalDialogService ModalDialog
+@inject IModalDialogService ModalDialog;
+@using System.Globalization;
+@using System.Threading; 
 
 
 
@@ -29,7 +31,7 @@
             </InputSelect>
         </p>
         <label>Client Name</label>
-        <InputText id="name" @bind-Value="quote.ClientName"></InputText>
+        <InputText id="name" @bind-Value="quote.ClientName" style="direction:rtl"></InputText>
         <ValidationMessage For="@(() => quote.ClientName)" />
         <button type="submit">Submit</button>
 
@@ -52,13 +54,19 @@
 
     async void SignUpBtn_Clicked()
     {
-        ModalDialogResult result = await ModalDialog.ShowDialogAsync<Test>("Sign Up For your free account");
+        /**
+        ModalDialogResult result = await ModalDialog.ShowDialogAsync<ClientOtherInfo>("Enter other client info");
         if (result.Success)
             ;// CreateNewUser(result.ReturnParameters.Get<string>("FirstName"), result.ReturnParameters.Get<string>("LastName"))
-        }
+           */
+    }
+
 
     protected async override Task OnInitializedAsync()
     {
+        //CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("ur-PK");
+        Thread.CurrentThread.CurrentUICulture = new CultureInfo("ur"); //set lang to Urdu
+
         //get data from titles table
         titles = await httpclient.GetFromJsonAsync<TitlesTable[]>("api/IMS");
         //get the relevant quote data
@@ -72,18 +80,6 @@
         {
             nm.NavigateTo("openquote");
         }
-
-        //iTitles = from items2 in titles select items2.Title;
-
-        //currentTitle = (from items in titles
-        //                where quote.TitleCode == items.Id
-        //                select items.Title).FirstOrDefault();
-
-
-
-
-
-
 
     }
     protected async Task HandleValidSubmit(EditContext editContext)
