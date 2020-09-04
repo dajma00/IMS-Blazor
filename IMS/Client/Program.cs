@@ -28,14 +28,20 @@ namespace IMS.Client
             //add service for LiquidTechnologies modal dialog box (installed nuget package)
             builder.Services.AddModalDialog();
             var host = builder.Build();
+
+            //language selection 
+            //from https://github.com/pranavkm/LocSample
+            
             var jsInterop = host.Services.GetRequiredService<IJSRuntime>();
             var result = await jsInterop.InvokeAsync<string>("blazorCulture.get");
+            
             if (result != null)
             {
                 var culture = new CultureInfo(result);
                 CultureInfo.DefaultThreadCurrentCulture = culture;
                 CultureInfo.DefaultThreadCurrentUICulture = culture;
             }
+
             await host.RunAsync();
         }
     }

@@ -65,7 +65,7 @@
     protected async override Task OnInitializedAsync()
     {
         //CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("ur-PK");
-        Thread.CurrentThread.CurrentUICulture = new CultureInfo("ur"); //set lang to Urdu
+        //Thread.CurrentThread.CurrentUICulture = new CultureInfo("ur"); //set lang to Urdu
 
         //get data from titles table
         titles = await httpclient.GetFromJsonAsync<TitlesTable[]>("api/IMS");

@@ -1,14 +1,15 @@
 ﻿@page "/"
-
-<h2>IMS <span class="blazor">Blazor</span> App</h2>
-<h3>by Amjad Khan</h3>
-<p>
-    Simple Blazor app that uses standard Boostrap framework as well as demonstrates use
-    of simple form elements:
-    <ul>
-        <li>Form Validation</li>
-        <li>Connecting to MySql Database</li>
-        <li>Using web APIs</li>
-    </ul>
-    We can build Blazor apps for you! <a href="https://kfacon.com">KFA Software</a>
-</p>
+@inject Microsoft.Extensions.Localization.IStringLocalizer<IMS.Shared.Resources.Resource> localizer
+    
+    <h2>IMS <span class="blazor">Blazor</span> App by</h2>
+    <h3>@localizer["name"]</h3>
+    <p>
+        Simple Blazor app that uses standard Boostrap framework as well as demonstrates use
+        of simple form elements:
+        <ul>
+            <li>Form Validation</li>
+            <li>Connecting to MySql Database</li>
+            <li>Using web APIs</li>
+        </ul>
+        We can build Blazor apps for you! <a href="https://kfacon.com">KFA Software</a>
+    </p>

@@ -70,6 +70,15 @@ namespace IMS.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Amjad Khan.
+        /// </summary>
+        public static string name {
+            get {
+                return ResourceManager.GetString("name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Opening Script.
         /// </summary>
         public static string openingscript {

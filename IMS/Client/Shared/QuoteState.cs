@@ -7,6 +7,6 @@ namespace IMS.Shared
     class QuoteState
     {
         public int QuoteId { get; set; }
-        public int Lang { get; set; }
+        public string Lang { get; set; }
     }
 }

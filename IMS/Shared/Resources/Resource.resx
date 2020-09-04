@@ -120,6 +120,9 @@
   <data name="insureddetails" xml:space="preserve">
     <value>Insured Details</value>
   </data>
+  <data name="name" xml:space="preserve">
+    <value>Amjad Khan</value>
+  </data>
   <data name="openingscript" xml:space="preserve">
     <value>Opening Script</value>
   </data>

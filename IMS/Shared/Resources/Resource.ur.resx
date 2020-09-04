@@ -120,6 +120,9 @@
   <data name="insureddetails" xml:space="preserve">
     <value>صارف کی تفصیلات</value>
   </data>
+  <data name="name" xml:space="preserve">
+    <value>امجد خان</value>
+  </data>
   <data name="openingscript" xml:space="preserve">
     <value>اوپننگ اسکرپٹ</value>
   </data>
