@@ -7,10 +7,12 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200816082433_quote.cs" />
     <Compile Remove="Migrations\20200816082433_quote.Designer.cs" />
+    <Compile Remove="Migrations\20200908145452_vehicle-class.cs" />
+    <Compile Remove="Migrations\20200908145452_vehicle-class.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="LiquidTechnologies.Blazor.ModalDialog" Version="0.9.7" />
+    <PackageReference Include="Blazored.Modal" Version="5.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="3.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.6">

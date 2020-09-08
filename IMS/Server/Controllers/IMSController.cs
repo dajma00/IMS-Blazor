@@ -40,6 +40,21 @@ namespace IMS.Server.Controllers
             
         }
 
+        [HttpGet("vehicles/{quoteid}")]
+        
+        public async Task<IActionResult> GetVehicles(int quoteid)
+        {
+
+            var vehicles = await _dataContext.tblVehicles.ToListAsync();
+            if (vehicles == null)
+            {
+                var v = new Vehicle();
+                vehicles[0] = v; //add a null vehicle for json result only.
+            }
+            return Ok(vehicles);
+
+        }
+
         //given a quote id, return the quote
         [HttpGet("quote/{quoteid}")]
         public async Task<IActionResult> GetQuote(string quoteid)
@@ -80,6 +95,31 @@ namespace IMS.Server.Controllers
 
             return Ok();
         }
-        
+
+        [HttpPost("PostAddVehicle")]
+        public async Task<IActionResult> PostAddVehicle(Vehicle v)
+        {
+
+            //add
+            
+                _dataContext.tblVehicles.Add(v); //new quote
+            
+            await _dataContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPost("PostDeleteVehicle")]
+        public async Task<IActionResult> PostDeleteVehicle(Vehicle v)
+        {
+
+            //add
+            _dataContext.tblVehicles.Remove(v); //new quote
+
+            await _dataContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
     }
 }

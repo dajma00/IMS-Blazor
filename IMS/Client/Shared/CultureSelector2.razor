@@ -1,0 +1,32 @@
+﻿@using  System.Globalization
+@inject IJSRuntime JSRuntime
+@inject NavigationManager Nav
+@inject IMS.Shared.QuoteState quoteState;
+
+
+
+<button class="btn btn-sm btn-light" @onclick="SwitchToUrdu">ار</button>
+<button class="btn btn-sm btn-light" @onclick="SwitchToEnglish">En</button>
+
+
+
+
+@code
+
+
+{ 
+    public void SwitchToUrdu()
+    {
+        var js = (IJSInProcessRuntime)JSRuntime;
+        js.InvokeVoid("blazorCulture.set", "ur"); //uses javascript to set langugage type for browser. javascript is in index.html
+        Nav.NavigateTo(Nav.Uri, forceLoad: true); //forceload forces a reload from server
+    }
+    public void SwitchToEnglish()
+    {
+        var js = (IJSInProcessRuntime)JSRuntime;
+        js.InvokeVoid("blazorCulture.set", "en");
+        Nav.NavigateTo(Nav.Uri, forceLoad: true);
+
+    }
+     
+}

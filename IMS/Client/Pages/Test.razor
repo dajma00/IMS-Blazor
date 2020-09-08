@@ -1,7 +1,105 @@
-﻿@using Blazor.ModalDialog
+﻿@page "/test"
+@inject NavigationManager nm;
+@using IMS.Shared.Models;
+@inject HttpClient httpclient;
+@inject IMS.Shared.QuoteState quoteState;
 
-<h3>Test</h3>
+<h3>Vehicle Add/Delete</h3>
+<EditForm Model="InText">
+    <label>Enter Text:</label>
+    <InputText @bind-Value="InText">
 
-@code {
+    </InputText>
+</EditForm>
+<button @onclick="navigate">Back</button>
+<button @onclick="addvehicle">Add Car</button>
+<h1>Vehicle List</h1>
 
+
+
+@if (vehicles == null)
+{
+    <p><em>Loading...</em></p>
 }
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Quote ID</th>
+                <th>Vehicle ID</th>
+                <th>Vehicle Name</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var vehicle in vehicles)
+            {
+                <tr>
+                    <td>@vehicle.QuoteID</td>
+                    <td>@vehicle.VehicleID</td>
+                    <td>@vehicle.VehicleName</td>
+                    <td><button class="btn btn-secondary" @onclick="@(() => deletevehicle(vehicle))">Delete</button></td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+    @code {
+
+        public List<Vehicle> vehicles;
+        string InText = "";
+        void navigate()
+        {
+            nm.NavigateTo("/"); //go to index.razor
+
+        }
+
+        protected async Task addvehicle()
+        {
+            Vehicle vehicle = new Vehicle();
+
+            vehicles.Add(vehicle); //this one is fake, just update ui without db values.
+            StateHasChanged();
+            //post to db
+            var result = httpclient.PostAsJsonAsync("api/IMS/PostAddVehicle", vehicle);
+
+            //refresh with new data in client memory
+            vehicles = await httpclient.GetFromJsonAsync<List<Vehicle>>("api/IMS/vehicles/" + quoteState.QuoteId.ToString());
+
+            //now update ui with the latest db values.
+            StateHasChanged();
+
+        }
+
+        protected async Task deletevehicle(Vehicle vehicle)
+        {
+            var result = await httpclient.PostAsJsonAsync("api/IMS/PostDeleteVehicle", vehicle);
+            //refresh with new data in client memory
+            vehicles = await httpclient.GetFromJsonAsync<List<Vehicle>>("api/IMS/vehicles/" + quoteState.QuoteId.ToString());
+            StateHasChanged();
+        }
+
+        protected async override Task OnInitializedAsync()
+        {
+
+
+
+
+            if (quoteState.QuoteId != 0) //quote state 0 means, no selection of quote was made
+            {
+                //get data from vehicles table
+                vehicles = await httpclient.GetFromJsonAsync<List<Vehicle>>("api/IMS/vehicles/" + quoteState.QuoteId.ToString());
+
+            }
+            else //no quote number means user has clicked on this component without selecting
+                 //a quote before. So send the user to select a quote first.
+            {
+                nm.NavigateTo("openquote");
+            }
+
+        }
+
+    }

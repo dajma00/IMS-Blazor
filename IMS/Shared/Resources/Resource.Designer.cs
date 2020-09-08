@@ -61,6 +61,15 @@ namespace IMS.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Blazor.
+        /// </summary>
+        public static string blazor {
+            get {
+                return ResourceManager.GetString("blazor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Insured Details.
         /// </summary>
         public static string insureddetails {

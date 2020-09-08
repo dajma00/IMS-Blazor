@@ -6,7 +6,6 @@
 @inject IMS.Shared.QuoteState quoteState;
 @using System.Collections.Generic;
 @inject NavigationManager nm;
-@inject IModalDialogService ModalDialog;
 @using System.Globalization;
 @using System.Threading; 
 
@@ -31,7 +30,8 @@
             </InputSelect>
         </p>
         <label>Client Name</label>
-        <InputText id="name" @bind-Value="quote.ClientName" style="direction:rtl"></InputText>
+        <InputText id="name" @bind-Value="quote.ClientName" @attributes="InputAttributes"></InputText>
+        
         <ValidationMessage For="@(() => quote.ClientName)" />
         <button type="submit">Submit</button>
 
@@ -61,9 +61,19 @@
            */
     }
 
+    public Dictionary<string, object> InputAttributes { get; set; } =
+        new Dictionary<string, object>()
+        {
+            { "dir", "auto" } //this attribute goes into the InputText control above to change direcction of text alignment depending on which language is input in the box.
+            //{ "placeholder", "Input placeholder text" },
+            //{ "required", "required" },
+            //{ "size", "50" }
+        };
 
     protected async override Task OnInitializedAsync()
     {
+
+
         //CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("ur-PK");
         //Thread.CurrentThread.CurrentUICulture = new CultureInfo("ur"); //set lang to Urdu
 

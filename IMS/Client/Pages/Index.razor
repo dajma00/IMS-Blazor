@@ -1,15 +1,41 @@
 ﻿@page "/"
 @inject Microsoft.Extensions.Localization.IStringLocalizer<IMS.Shared.Resources.Resource> localizer
-    
-    <h2>IMS <span class="blazor">Blazor</span> App by</h2>
-    <h3>@localizer["name"]</h3>
-    <p>
-        Simple Blazor app that uses standard Boostrap framework as well as demonstrates use
-        of simple form elements:
-        <ul>
-            <li>Form Validation</li>
-            <li>Connecting to MySql Database</li>
-            <li>Using web APIs</li>
-        </ul>
-        We can build Blazor apps for you! <a href="https://kfacon.com">KFA Software</a>
-    </p>
+@inject IModalService Modal
+@inject NavigationManager nm;
+
+
+<h2>IMS <span class="blazor">@localizer["blazor"]</span> App by</h2>
+<h3>@localizer["name"]</h3>
+<p>
+    Simple Blazor app that uses standard Boostrap framework as well as demonstrates use
+    of simple form elements:
+    <ul>
+        <li>Form Validation</li>
+        <li>Connecting to MySql Database</li>
+        <li>Using web APIs</li>
+    </ul>
+    We can build Blazor apps for you! <a href="https://kfacon.com">KFA Software</a>
+</p>
+<!--
+<button @onclick="@(() => Modal.Show<OpeningScript>("Opening Script"))" class="btn btn-primary">Opening Script</button>
+-->
+<!--
+<button @onclick="@(() => ShowModal("Test Dialog"))" class="btn btn-primary">Open "Opening Script" Component in Modal</button>
+-->
+<button @onclick="test" class="btn btn-secondary">Test</button>
+@code {
+    void ShowModal(string title)
+    {
+        var options = new ModalOptions()
+        {
+            DisableBackgroundCancel = true,
+            Animation = ModalAnimation.FadeInOut(1)
+        };
+
+        Modal.Show<Test>(title, options);
+    }
+    void test()
+    {
+        nm.NavigateTo("Test");
+    }
+}
