@@ -69,9 +69,9 @@ else
             //StateHasChanged();
             //post to db
             dis = "visible";
-            var result = httpclient.PostAsJsonAsync("api/IMS/PostAddVehicle", vehicle);
+            var result = await httpclient.PostAsJsonAsync("api/IMS/PostAddVehicle", vehicle);
 
-            //refresh with new data in client memory
+            //refresh with new data from db
             vehicles = await httpclient.GetFromJsonAsync<List<Vehicle>>("api/IMS/vehicles/" + quoteState.QuoteId.ToString());
 
             //now update ui with the latest db values.
