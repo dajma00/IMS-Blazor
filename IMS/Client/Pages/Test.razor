@@ -43,6 +43,9 @@ else
 
                 </tr>
             }
+            <tr style="visibility:@dis;background-color:lightgray">
+                <td>Loading...</td>
+            </tr>
         </tbody>
     </table>
 }
@@ -51,6 +54,7 @@ else
 
         public List<Vehicle> vehicles;
         string InText = "";
+        string dis = "collapse";
         void navigate()
         {
             nm.NavigateTo("/"); //go to index.razor
@@ -61,9 +65,10 @@ else
         {
             Vehicle vehicle = new Vehicle();
 
-            vehicles.Add(vehicle); //this one is fake, just update ui without db values.
-            StateHasChanged();
+            //vehicles.Add(vehicle); //this one is fake, just update ui without db values.
+            //StateHasChanged();
             //post to db
+            dis = "visible";
             var result = httpclient.PostAsJsonAsync("api/IMS/PostAddVehicle", vehicle);
 
             //refresh with new data in client memory
@@ -71,6 +76,7 @@ else
 
             //now update ui with the latest db values.
             StateHasChanged();
+            dis = "collapse";
 
         }
 

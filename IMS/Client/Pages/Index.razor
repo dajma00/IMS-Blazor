@@ -22,7 +22,7 @@
 <!--
 <button @onclick="@(() => ShowModal("Test Dialog"))" class="btn btn-primary">Open "Opening Script" Component in Modal</button>
 -->
-<button @onclick="test" class="btn btn-secondary">Test</button>
+
 @code {
     void ShowModal(string title)
     {
@@ -34,8 +34,5 @@
 
         Modal.Show<Test>(title, options);
     }
-    void test()
-    {
-        nm.NavigateTo("Test");
-    }
+    
 }
