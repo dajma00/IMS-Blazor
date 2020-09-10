@@ -8,5 +8,6 @@ namespace IMS.Shared
     {
         public int QuoteId { get; set; }
         public string Lang { get; set; }
+        
     }
 }

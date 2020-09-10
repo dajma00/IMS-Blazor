@@ -1,0 +1,16 @@
+﻿@page "/DialogTest"
+<h3>Dialog Test</h3>
+<button class="btn btn-primary" @onclick="ShowDialog">Show Dialog</button>
+@if (showDialog)
+{
+    <DialogOk_Cancel/>
+}
+
+@code {
+    bool showDialog;
+    public void ShowDialog()
+    {
+        showDialog = true;
+    }
+
+}

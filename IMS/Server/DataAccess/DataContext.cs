@@ -22,6 +22,7 @@ namespace IMS.Server.DataAccess
             {
 
             }
+            
             public virtual DbSet<TitlesTable> tblTitles { get; set; }
             public virtual DbSet<Quote> tblQuotes { get; set; }
             public virtual DbSet<Vehicle> tblVehicles { get; set; }
