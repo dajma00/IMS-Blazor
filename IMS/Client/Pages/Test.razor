@@ -4,15 +4,9 @@
 @inject HttpClient httpclient;
 @inject IMS.Shared.QuoteState quoteState;
 
-<h3>Vehicle Add/Delete</h3>
-<EditForm Model="InText">
-    <label>Enter Text:</label>
-    <InputText @bind-Value="InText">
 
-    </InputText>
-</EditForm>
 <button @onclick="navigate">Back</button>
-<button @onclick="addvehicle">Add Car</button>
+<button @onclick="vehicleadd">Add Car</button>
 <h1>Vehicle List</h1>
 
 
@@ -35,13 +29,15 @@ else
         <tbody>
             @foreach (var vehicle in vehicles)
             {
-                <tr>
-                    <td>@vehicle.QuoteID</td>
-                    <td>@vehicle.VehicleID</td>
-                    <td>@vehicle.VehicleName</td>
-                    <td><button class="btn btn-secondary" @onclick="@(() => deletevehicle(vehicle))">Delete</button></td>
+            <tr>
+                <td>@vehicle.QuoteID</td>
+                <td>@vehicle.VehicleID</td>
+                <td>@vehicle.VehicleName</td>
+                <td><button class="btn btn-secondary" >Edit</button></td>
 
-                </tr>
+                <td><button class="btn btn-secondary" @onclick="@(() => deletevehicle(vehicle))">Delete</button></td>
+
+            </tr>
             }
             <tr style="visibility:@dis;background-color:lightgray">
                 <td>Loading...</td>
@@ -58,6 +54,12 @@ else
         void navigate()
         {
             nm.NavigateTo("/"); //go to index.razor
+
+        }
+
+        void vehicleadd() {
+
+            nm.NavigateTo("vehicleadd");
 
         }
 
