@@ -1,0 +1,30 @@
+﻿@page "/vehicleadd"
+@inject NavigationManager nm;
+<h3>Vehicle Add (Use this form to add all vehicle information)</h3>
+<EditForm Model="InText">
+    <label>Enter Text:</label>
+    <InputText @bind-Value="InText">
+
+    </InputText>
+</EditForm>
+<button class="btn btn-primary" @onclick="goback">Save & Go Back</button>
+<button class="btn btn-primary" @onclick="Cancel">Cancel</button>
+@code {
+    public string InText=""; //must be initialized to EditForm work properly.
+    void goback()
+    {
+        //save data
+        //....
+
+        //goback
+        nm.NavigateTo("test");
+
+
+    }
+    void Cancel()
+    {
+        //just go back, dont save
+        nm.NavigateTo("test");
+    }
+
+}
