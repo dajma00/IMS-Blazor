@@ -1,20 +1,65 @@
 ﻿@page "/vehicleadd"
+@using IMS.Shared.Models;
 @inject NavigationManager nm;
+@inject IMS.Client.Shared.QuoteState quoteState; 
+
 <h3>Vehicle Add (Use this form to add all vehicle information)</h3>
-<EditForm Model="InText">
-    <label>Enter Text:</label>
-    <InputText @bind-Value="InText">
+<label class="text-danger">@localUnsavedData</label>
+<EditForm Model="Vehicle" @oninput="OnInput">
+    <label>Enter Car Name:</label>
+    <InputText @bind-Value="Vehicle.VehicleName">
 
     </InputText>
 </EditForm>
 <button class="btn btn-primary" @onclick="goback">Save & Go Back</button>
 <button class="btn btn-primary" @onclick="Cancel">Cancel</button>
+<button class="btn btn-primary" @onclick="AddDriver">Add Driver</button>
 @code {
-    public string InText=""; //must be initialized to EditForm work properly.
+    public Vehicle Vehicle = new Vehicle(); //must be initialized to EditForm work properly.
+    public string localUnsavedData,  error;
+    protected async override Task OnInitializedAsync()
+    {
+        if (quoteState.Vehicle != null) //frist time?
+        {
+            Vehicle.VehicleName = quoteState.Vehicle.VehicleName; //get any unsaved data
+            quoteState.Vehicle = null;
+            try {
+                if (quoteState.Driver != null)
+                {
+                    Vehicle.Drivers.Add(quoteState.Driver); //add driver, if there is any
+                    quoteState.Driver = null;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.ToString();
+            }
+            
+
+            //now just reset quote state as we already got any unsaved data
+
+
+
+        }
+
+    }
+    void OnInput()
+    {
+        quoteState.UnsavedData = true;
+        localUnsavedData = "Unsaved Data";
+    }
+
+
     void goback()
     {
         //save data
         //....
+
+        //clear quoteState
+        quoteState.Vehicle = null;
+        quoteState.Driver=null;
+
+
 
         //goback
         nm.NavigateTo("test");
@@ -23,8 +68,22 @@
     }
     void Cancel()
     {
+        //clear quoteState
+        quoteState.Vehicle = null;
+
+        quoteState.Driver=null;
+
         //just go back, dont save
         nm.NavigateTo("test");
+    }
+    void AddDriver()
+    {
+        //save any information entered so far in the form to quoteState.
+        quoteState.Vehicle = Vehicle;
+
+        //navigate to adddriver component
+        nm.NavigateTo("/DriverAdd");
+
     }
 
 }

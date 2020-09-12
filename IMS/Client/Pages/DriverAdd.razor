@@ -1,0 +1,29 @@
+﻿@using IMS.Shared.Models;
+@page "/DriverAdd";
+@inject NavigationManager nm;
+@inject IMS.Client.Shared.QuoteState quoteState;
+<h3>Add Driver</h3>
+
+<EditForm Model="Driver">
+    <label>Enter Driver Information:</label>
+    <InputText @bind-Value="Driver.Name"></InputText>
+</EditForm>
+<button class="btn btn-primary" @onclick="OnSave">Save</button>
+<button class="btn btn-primary" @onclick="OnClickCancel">Cancel</button>
+
+@code {
+    public Driver Driver = new Driver();
+    void OnSave()
+    {
+        //save data to quotestate
+        quoteState.Driver = Driver;
+        //go back to vehicle page
+        nm.NavigateTo("/VehicleAdd");
+    }
+
+    void OnClickCancel()
+    {
+        //just go back without doing anything.
+        nm.NavigateTo("/VehicleAdd");
+    }
+}

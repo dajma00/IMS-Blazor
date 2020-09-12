@@ -1,14 +1,14 @@
 ﻿@page "/openingscript"
 @page "/openingscript/{quoteid:int}"
+
 @using System.Threading.Tasks;
 @using IMS.Shared.Models;
 @inject HttpClient httpclient;
-@inject IMS.Shared.QuoteState quoteState;
+@inject IMS.Client.Shared.QuoteState quoteState;
 @using System.Collections.Generic;
 @inject NavigationManager nm;
 @using System.Globalization;
-@using System.Threading; 
-
+@using System.Threading;
 
 
 <h3>Opening Script for Quote id:@quoteState.QuoteId</h3>
@@ -31,7 +31,7 @@
         </p>
         <label>Client Name</label>
         <InputText id="name" @bind-Value="quote.ClientName" @attributes="InputAttributes"></InputText>
-        
+
         <ValidationMessage For="@(() => quote.ClientName)" />
         <button type="submit">Submit</button>
 
@@ -65,10 +65,10 @@
         new Dictionary<string, object>()
         {
             { "dir", "auto" } //this attribute goes into the InputText control above to change direcction of text alignment depending on which language is input in the box.
-            //{ "placeholder", "Input placeholder text" },
-            //{ "required", "required" },
-            //{ "size", "50" }
-        };
+                              //{ "placeholder", "Input placeholder text" },
+                              //{ "required", "required" },
+                              //{ "size", "50" }
+            };
 
     protected async override Task OnInitializedAsync()
     {

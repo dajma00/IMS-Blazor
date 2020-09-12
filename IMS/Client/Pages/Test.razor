@@ -2,11 +2,13 @@
 @inject NavigationManager nm;
 @using IMS.Shared.Models;
 @inject HttpClient httpclient;
-@inject IMS.Shared.QuoteState quoteState;
+@inject IMS.Client.Shared.QuoteState quoteState;
 
 
 <button @onclick="navigate">Back</button>
+
 <button @onclick="vehicleadd">Add Car</button>
+
 <h1>Vehicle List</h1>
 
 
@@ -51,6 +53,7 @@ else
         public List<Vehicle> vehicles;
         string InText = "";
         string dis = "collapse";
+        bool button_disabled = false;
         void navigate()
         {
             nm.NavigateTo("/"); //go to index.razor
@@ -65,6 +68,7 @@ else
 
         protected async Task addvehicle()
         {
+            button_disabled = true;
             Vehicle vehicle = new Vehicle();
 
             //vehicles.Add(vehicle); //this one is fake, just update ui without db values.
@@ -72,13 +76,21 @@ else
             //post to db
             dis = "visible";
             var result = await httpclient.PostAsJsonAsync("api/IMS/PostAddVehicle", vehicle);
+            if (result.IsSuccessStatusCode)
+            {
+                //refresh with new data from db
+                vehicles = await httpclient.GetFromJsonAsync<List<Vehicle>>("api/IMS/vehicles/" + quoteState.QuoteId.ToString());
 
-            //refresh with new data from db
-            vehicles = await httpclient.GetFromJsonAsync<List<Vehicle>>("api/IMS/vehicles/" + quoteState.QuoteId.ToString());
+                //now update ui with the latest db values.
+                StateHasChanged();
+                dis = "collapse";
 
-            //now update ui with the latest db values.
-            StateHasChanged();
-            dis = "collapse";
+            }
+            else
+            { //show dialog
+
+            }
+            button_disabled = false;
 
         }
 
