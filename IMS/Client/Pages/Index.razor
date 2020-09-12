@@ -3,19 +3,27 @@
 @inject IModalService Modal
 @inject NavigationManager nm;
 
+    <div class="w-75">
+        <h2>IMS <span class="blazor">@localizer["blazor"]</span> App by</h2>
+        <h3>@localizer["name"]</h3>
+        <p>
+            Simple Blazor app that uses standard Boostrap framework as well as demonstrates use
+            of simple form elements:
+            <ul>
+                <li>Form Validation</li>
+                <li>Connecting to MySql Database</li>
+                <li>Using web APIs</li>
+            </ul>
+            This is a hypothetical application. The first button on the left opens a list of quotes. User can
+            choose from this list of quotes and the system then remembers the opened quote no matter what
+            component is being displayed. This is done through dependency injection of quoteState class. This
+            class contains variables that are used to store 'state' information of the quote.<br />
+            Blazor has this nice 'NavLink' component that automatically higlights the menu items corresponding
+            to the currently displayed URL.<br /><br />
 
-<h2>IMS <span class="blazor">@localizer["blazor"]</span> App by</h2>
-<h3>@localizer["name"]</h3>
-<p>
-    Simple Blazor app that uses standard Boostrap framework as well as demonstrates use
-    of simple form elements:
-    <ul>
-        <li>Form Validation</li>
-        <li>Connecting to MySql Database</li>
-        <li>Using web APIs</li>
-    </ul>
-    We can build Blazor apps for you! <a href="https://kfacon.com">KFA Software</a>
-</p>
+            We can build Blazor apps for you! <a href="https://kfacon.com">KFA Software</a>
+        </p>
+    </div>
 <!--
 <button @onclick="@(() => Modal.Show<OpeningScript>("Opening Script"))" class="btn btn-primary">Opening Script</button>
 -->

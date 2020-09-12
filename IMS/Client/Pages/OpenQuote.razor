@@ -4,37 +4,39 @@
 @inject IMS.Client.Shared.QuoteState QuoteState
 @inject NavigationManager nm
 
-<h1>Quote List</h1>
+    
+        <h1>Quote List</h1>
 
 
 
-@if (quotes == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Quote ID</th>
-                <th>Title Code</th>
-                
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var quote in quotes)
-            {
-            <tr>
-                <td>@quote.ID</td>
-                <td>@quote.TitleCode</td>
-                <td><button class="btn btn-secondary" @onclick="@(()=>Openquote(quote))">Open</button></td>
+        @if (quotes == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Quote ID</th>
+                        <th>Title Code</th>
 
-            </tr>
-            }
-        </tbody>
-    </table>
-}
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var quote in quotes)
+                    {
+                        <tr>
+                            <td>@quote.ID</td>
+                            <td>@quote.TitleCode</td>
+                            <td><button class="btn btn-secondary" @onclick="@(()=>Openquote(quote))">Open</button></td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    
 
 @code {
     private Quote[] quotes;

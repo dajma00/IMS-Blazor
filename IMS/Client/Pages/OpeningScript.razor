@@ -10,102 +10,103 @@
 @using System.Globalization;
 @using System.Threading;
 
-
-<h3>Opening Script for Quote id:@quoteState.QuoteId</h3>
-@if (titles != null)
-{
-
-    <EditForm Model="quote" OnValidSubmit="HandleValidSubmit">
-        <DataAnnotationsValidator />
-
-
-        <p>
-            Dear
-            <InputSelect @bind-Value="currentTitle">
-                @foreach (var item in titles)
-                    {
-                    <option value="@item.Id">@item.Title</option>
-
-                    }
-            </InputSelect>
-        </p>
-        <label>Client Name</label>
-        <InputText id="name" @bind-Value="quote.ClientName" @attributes="InputAttributes"></InputText>
-
-        <ValidationMessage For="@(() => quote.ClientName)" />
-        <button type="submit">Submit</button>
-
-    </EditForm>
-    <button @onclick="SignUpBtn_Clicked" class="btn btn-primary">Enter more information</button>
-
-
-
-}
-
-
-@code {
-    public TitlesTable[] titles;
-    public IEnumerable<String> iTitles;
-    string iTitles1, iTitles2, currentTitle;
-    public Quote quote;
-    public int titleid;
-    [Parameter]
-    public int QuoteID { get; set; }
-
-    async void SignUpBtn_Clicked()
-    {
-        /**
-        ModalDialogResult result = await ModalDialog.ShowDialogAsync<ClientOtherInfo>("Enter other client info");
-        if (result.Success)
-            ;// CreateNewUser(result.ReturnParameters.Get<string>("FirstName"), result.ReturnParameters.Get<string>("LastName"))
-           */
-    }
-
-    public Dictionary<string, object> InputAttributes { get; set; } =
-        new Dictionary<string, object>()
+    
+        <h3>Opening Script for Quote id:@quoteState.QuoteId</h3>
+        @if (titles != null)
         {
+
+            <EditForm Model="quote" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+
+
+                <p>
+                    Dear
+                    <InputSelect @bind-Value="currentTitle">
+                        @foreach (var item in titles)
+                            {
+                            <option value="@item.Id">@item.Title</option>
+
+                            }
+                    </InputSelect>
+                </p>
+                <label>Client Name</label>
+                <InputText id="name" @bind-Value="quote.ClientName" @attributes="InputAttributes"></InputText>
+
+                <ValidationMessage For="@(() => quote.ClientName)" />
+                <button type="submit">Submit</button>
+
+            </EditForm>
+            <button @onclick="SignUpBtn_Clicked" class="btn btn-primary">Enter more information</button>
+
+
+
+        }
+    
+
+
+        @code {
+            public TitlesTable[] titles;
+            public IEnumerable<String> iTitles;
+            string iTitles1, iTitles2, currentTitle;
+            public Quote quote;
+            public int titleid;
+            [Parameter]
+            public int QuoteID { get; set; }
+
+            async void SignUpBtn_Clicked()
+            {
+                /**
+                ModalDialogResult result = await ModalDialog.ShowDialogAsync<ClientOtherInfo>("Enter other client info");
+                if (result.Success)
+                    ;// CreateNewUser(result.ReturnParameters.Get<string>("FirstName"), result.ReturnParameters.Get<string>("LastName"))
+                   */
+            }
+
+            public Dictionary<string, object> InputAttributes { get; set; } =
+                new Dictionary<string, object>()
+                {
             { "dir", "auto" } //this attribute goes into the InputText control above to change direcction of text alignment depending on which language is input in the box.
                               //{ "placeholder", "Input placeholder text" },
                               //{ "required", "required" },
                               //{ "size", "50" }
             };
 
-    protected async override Task OnInitializedAsync()
-    {
+            protected async override Task OnInitializedAsync()
+            {
 
 
-        //CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("ur-PK");
-        //Thread.CurrentThread.CurrentUICulture = new CultureInfo("ur"); //set lang to Urdu
+                //CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("ur-PK");
+                //Thread.CurrentThread.CurrentUICulture = new CultureInfo("ur"); //set lang to Urdu
 
-        //get data from titles table
-        titles = await httpclient.GetFromJsonAsync<TitlesTable[]>("api/IMS");
-        //get the relevant quote data
-        if (quoteState.QuoteId != 0) //quote state 0 means, no selection of quote was made
-        {
-            quote = await httpclient.GetFromJsonAsync<Quote>("api/IMS/quote/" + quoteState.QuoteId.ToString());
-            currentTitle = quote.TitleCode.ToString();
+                //get data from titles table
+                titles = await httpclient.GetFromJsonAsync<TitlesTable[]>("api/IMS");
+                //get the relevant quote data
+                if (quoteState.QuoteId != 0) //quote state 0 means, no selection of quote was made
+                {
+                    quote = await httpclient.GetFromJsonAsync<Quote>("api/IMS/quote/" + quoteState.QuoteId.ToString());
+                    currentTitle = quote.TitleCode.ToString();
+                }
+                else //no quote number means user has clicked on this component without selecting
+                     //a quote before. So send the user to select a quote first.
+                {
+                    nm.NavigateTo("openquote");
+                }
+
+            }
+            protected async Task HandleValidSubmit(EditContext editContext)
+            {
+
+                var x = currentTitle;
+                quote.TitleCode = int.Parse(x);
+                var result = await httpclient.PostAsJsonAsync("api/IMS/PostSaveChanges", quote);
+
+
+                Console.WriteLine("OnValidSubmit");
+            }
+            //public void onchange(ChangeEventArgs e)
+            //{
+            //    quote.TitleCode = int.Parse(e.Value.ToString());
+
+
+            //}
         }
-        else //no quote number means user has clicked on this component without selecting
-             //a quote before. So send the user to select a quote first.
-        {
-            nm.NavigateTo("openquote");
-        }
-
-    }
-    protected async Task HandleValidSubmit(EditContext editContext)
-    {
-
-        var x = currentTitle;
-        quote.TitleCode = int.Parse(x);
-        var result = await httpclient.PostAsJsonAsync("api/IMS/PostSaveChanges", quote);
-
-
-        Console.WriteLine("OnValidSubmit");
-    }
-    //public void onchange(ChangeEventArgs e)
-    //{
-    //    quote.TitleCode = int.Parse(e.Value.ToString());
-
-
-    //}
-}
