@@ -26,6 +26,7 @@ namespace IMS.Client
             builder.Services.AddScoped<QuoteState>();
             builder.Services.AddLocalization();
             builder.Services.AddBlazoredModal();
+            builder.Services.AddLogging(builder => builder.SetMinimumLevel(LogLevel.Debug));
 
             var host = builder.Build();
 

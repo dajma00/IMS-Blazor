@@ -99,8 +99,8 @@
                 var x = currentTitle;
                 quote.TitleCode = int.Parse(x);
                 var result = await httpclient.PostAsJsonAsync("api/IMS/PostSaveChanges", quote);
-
-
+                
+                result.EnsureSuccessStatusCode();
                 Console.WriteLine("OnValidSubmit");
             }
             //public void onchange(ChangeEventArgs e)

@@ -1,16 +1,17 @@
 ﻿@page "/DialogTest"
+@inject IModalService Modal
+@using IMS.Shared
+
 <h3>Dialog Test</h3>
-<button class="btn btn-primary" @onclick="ShowDialog">Show Dialog</button>
-@if (showDialog)
-{
-    <DialogOk_Cancel/>
-}
+<button @onclick="@(() => Modal.Show<DialogOk_Cancel>("My Movies"))" class="btn btn-primary">View Movies</button>
+<button @onclick="ShowModal" class="btn btn-primary">Show Modal</button>
+
 
 @code {
     bool showDialog;
-    public void ShowDialog()
+    public void ShowModal()
     {
-        showDialog = true;
+        Modal.Show<DialogOk_Cancel>("Welcome!");
     }
 
 }
