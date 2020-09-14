@@ -1,1 +1,13 @@
-﻿<h2>Are you sure?</h2>
+﻿<h2>Your data was saved successfully!</h2>
+
+<button @onclick="Cancel" class="btn btn-secondary">Cancel</button>
+<button @onclick="Cancel" class="btn btn-secondary">Ok</button>
+@code{
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
+
+    void Cancel()
+    {
+        BlazoredModal.Cancel(); //send cancel info to the calling parent
+        
+    }
+}

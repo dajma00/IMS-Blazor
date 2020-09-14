@@ -1,17 +1,28 @@
 ﻿@page "/DialogTest"
-@inject IModalService Modal
+
 @using IMS.Shared
 
-<h3>Dialog Test</h3>
+<h3>Blazor Dialog Sample</h3>
 <button @onclick="@(() => Modal.Show<DialogOk_Cancel>("My Movies"))" class="btn btn-primary">View Movies</button>
 <button @onclick="ShowModal" class="btn btn-primary">Show Modal</button>
-
+@res
 
 @code {
+    [CascadingParameter]
+    public IModalService Modal { get; set; }
+    string res = "";
     bool showDialog;
-    public void ShowModal()
+    async Task ShowModal()
     {
-        Modal.Show<DialogOk_Cancel>("Welcome!");
+        var dialog = Modal.Show<DialogOk_Cancel>("Welcome!");
+        var result = await dialog.Result;
+        if (result.Cancelled) 
+            res = "Cancel clicked";
+        else
+            res = "";
+
+
+
     }
 
 }
