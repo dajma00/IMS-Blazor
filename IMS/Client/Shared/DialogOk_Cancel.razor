@@ -1,13 +1,33 @@
-﻿<h2>Your data was saved successfully!</h2>
+﻿<h2>Would you like to proceed?</h2>
 
-<button @onclick="Cancel" class="btn btn-secondary">Cancel</button>
-<button @onclick="Cancel" class="btn btn-secondary">Ok</button>
+
+<button class="btn btn-success" @onclick="Yes" >Yes</button>
+<button @onclick="No" class="btn btn-dark">No</button>
+<button @onclick="Cancel" class="btn btn-dark">Cancel</button>
 @code{
     [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
 
     void Cancel()
     {
         BlazoredModal.Cancel(); //send cancel info to the calling parent
-        
+
+    }
+    public class Amjad
+    {
+        string member1;
+        string member2;
+    }
+    void Yes()
+    {
+
+        //closes dialog and send data back to the calling component (DialogTest.razor)
+        //BlazoredModal.Close(ModalResult.Ok<Amjad>(new Amjad())); //can send an object like this
+        BlazoredModal.Close(ModalResult.Ok<string>("Yes button was clicked."));
+
+    }
+    void No()
+    {
+        BlazoredModal.Close(ModalResult.Ok<string>("The No button was clicked."));
+
     }
 }

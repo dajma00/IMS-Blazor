@@ -2,24 +2,34 @@
 
 @using IMS.Shared
 
-<h3>Blazor Dialog Sample</h3>
-<button @onclick="@(() => Modal.Show<DialogOk_Cancel>("My Movies"))" class="btn btn-primary">View Movies</button>
+<h3>Blazored Dialog Sample</h3>
+<div class="card mb-4">
+    <div class="card-body">
+        <p class="card-text">
+            <code>
+            </code>
+        </p>
+    </div>
+</div>
+@*<button @onclick="@(() => Modal.Show<DialogOk_Cancel>("My Movies"))" class="btn btn-primary">View Movies</button>*@
 <button @onclick="ShowModal" class="btn btn-primary">Show Modal</button>
 @res
 
 @code {
+    
     [CascadingParameter]
     public IModalService Modal { get; set; }
     string res = "";
     bool showDialog;
     async Task ShowModal()
     {
+        
         var dialog = Modal.Show<DialogOk_Cancel>("Welcome!");
         var result = await dialog.Result;
         if (result.Cancelled) 
             res = "Cancel clicked";
         else
-            res = "";
+            res = (string)result.Data; //cast to the the type that is expected.
 
 
 
